@@ -1,5 +1,5 @@
 import datetime
-import DB.DB_Conn as DB_Conn
+import DB.Conn as DB_Conn
 
 
 def getDateExisting(date):
