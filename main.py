@@ -1,13 +1,28 @@
-import psycopg2
+import datetime
+import DB.DB_Conn as DB_Conn
 
-conn = psycopg2.connect(dbname='postgres', user='user',
-                        password='pw', host='localhost')
-cursor = conn.cursor()
 
-cursor.execute('insert into db VALUES (2)')
+def getDateExisting(date):
+    SelectQuery = f"SELECT * FROM click_count where _date = '{date}'"
+    DB_Conn.cursor.execute(SelectQuery)
+    records = DB_Conn.cursor.fetchall()
+    return bool(len(records))
 
-#cursor.execute('SELECT * FROM db LIMIT 10')
+
+_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+isDateExisted = getDateExisting(_date)
+
+
+InsertQuery = f"insert into click_count VALUES ('{_date}',1)"
+
+DB_Conn.cursor.execute(InsertQuery)
+
+#cursor.execute('SELECT * FROM click_count LIMIT 10')
 #records = cursor.fetchall()
 
-cursor.close()
-conn.close()
+DB_Conn.cursor.close()
+
+DB_Conn.conn.commit()
+
+DB_Conn.conn.close()
