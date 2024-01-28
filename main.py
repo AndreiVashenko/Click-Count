@@ -1,15 +1,13 @@
 import datetime
-from db.Conn import conn
+from db.conn import conn
 
 def getCount(_date):
 
     query = f"SELECT * FROM click_count where _date = '{_date}'"
 
-    cursor = conn.cursor()
+    cursor.execute(query)
 
-    with cursor:
-        cursor.execute(query)
-        records = cursor.fetchall()
+    records = cursor.fetchall()
 
     if records:
         return records[0][1]
@@ -22,7 +20,7 @@ def updateClickCount():
 
     current_count = getCount(current_date)
 
-    new_count = + current_count
+    new_count = current_count + 1
 
     if current_count:
 
@@ -37,11 +35,11 @@ def updateClickCount():
     conn.commit()
 
 
-if __name__ == "main":
+#if __name__ == "main":
 
-    cursor = conn.cursor()
+cursor = conn.cursor()
 
-    updateClickCount()
+updateClickCount()
 
     #cursor.close()
 
