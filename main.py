@@ -1,5 +1,13 @@
+import uvicorn
+
 import datetime
+
 from db.conn import conn
+
+from fastapi import FastAPI
+
+
+app = FastAPI()
 
 def getCount(_date):
 
@@ -14,6 +22,8 @@ def getCount(_date):
     else:
         return 0
 
+
+@app.get("/")
 def updateClickCount():
 
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -35,11 +45,13 @@ def updateClickCount():
     conn.commit()
 
 
-#if __name__ == "main":
-
 cursor = conn.cursor()
 
-updateClickCount()
+
+if __name__ == "__main__":
+    updateClickCount()
+
+#updateClickCount()
 
     #cursor.close()
 
